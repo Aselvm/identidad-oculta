@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "app/api/socket/route.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/socket.io/(.*)",
+      "destination": "/api/socket"
+    }
+  ]
+}
