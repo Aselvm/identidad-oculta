@@ -2,7 +2,11 @@
 nixPkgs = ["nodejs_18"]
 
 [phases.build]
-cmds = ["npm ci", "npm run build"]
+cmds = [
+	"rm -rf node_modules/.cache",  # limpia por si acaso
+	"npm ci",
+	"npm run build"
+]
 
 [phases.start]
 cmd = "npm start"
