@@ -10,8 +10,9 @@ const port = process.env.PORT || 3000
 const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 
-// Room management
-const rooms = new Map()
+// Room management - shared with API routes
+global.rooms = global.rooms || new Map()
+const rooms = global.rooms
 
 function shuffleArray(array) {
   const shuffled = [...array]
@@ -54,27 +55,38 @@ app.prepare().then(() => {
     console.log('Cliente conectado:', socket.id)
 
     socket.on('join-room', ({ roomCode, playerName }) => {
-      console.log(`${playerName} joining room ${roomCode}`)
+      console.log(`🚪 ${playerName} attempting to join room ${roomCode}`)
       
       if (!rooms.has(roomCode)) {
+        console.log(`❌ Room ${roomCode} not found`)
         socket.emit('room-not-found')
         return
       }
 
       const room = rooms.get(roomCode)
+      console.log(`📋 Room ${roomCode} current state:`, { 
+        players: room.players.length, 
+        names: room.names.length,
+        gameState: room.gameState 
+      })
+      
       const existingPlayer = room.players.find(p => p.name === playerName)
       
       if (!existingPlayer) {
+        console.log(`➕ Adding new player: ${playerName} (${socket.id})`)
         room.players.push({
           id: socket.id,
           name: playerName,
           hasGuessed: false
         })
       } else {
+        console.log(`🔄 Updating existing player: ${playerName} (${socket.id})`)
         existingPlayer.id = socket.id
       }
 
       socket.join(roomCode)
+      console.log(`✅ Player ${playerName} joined room ${roomCode}. Total players: ${room.players.length}`)
+      console.log(`📢 Emitting game-state to room ${roomCode}:`, room)
       io.to(roomCode).emit('game-state', room)
     })
 

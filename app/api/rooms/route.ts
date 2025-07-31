@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // In a real app, you'd use a database. For now, we'll use memory storage
-const rooms = new Map()
+// Share rooms with Socket.IO server
+const rooms = global.rooms || new Map()
+if (!global.rooms) {
+  global.rooms = rooms
+}
 
 function generateRoomCode(): string {
   return Math.random().toString(36).substr(2, 6).toUpperCase()
@@ -21,6 +25,7 @@ export async function POST(request: NextRequest) {
     rooms.set(roomCode, {
       players: [],
       gameState: 'waiting', // waiting, playing, finished
+      names: [],
       createdAt: new Date()
     })
 

@@ -4,7 +4,23 @@ let socket: Socket | null = null
 
 export const initSocket = () => {
   if (!socket) {
-    socket = io()
+    console.log('🔌 Initializing socket connection...')
+    socket = io({
+      path: '/socket.io/',
+      transports: ['websocket', 'polling']
+    })
+    
+    socket.on('connect', () => {
+      console.log('✅ Socket connected:', socket?.id)
+    })
+    
+    socket.on('disconnect', () => {
+      console.log('❌ Socket disconnected')
+    })
+    
+    socket.on('connect_error', (error) => {
+      console.error('🚨 Socket connection error:', error)
+    })
   }
   return socket
 }
