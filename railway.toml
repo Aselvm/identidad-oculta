@@ -1,0 +1,17 @@
+[build]
+  builder = "nixpacks"
+
+[deploy]
+  startCommand = "npm start"
+  restartPolicyType = "on_failure"
+  restartPolicyMaxRetries = 10
+
+[[services]]
+  name = "identidad-oculta"
+  
+  [services.build]
+    command = "npm run build"
+  
+  [services.deploy]
+    numReplicas = 1
+    sleepApplication = false

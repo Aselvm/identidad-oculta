@@ -50,8 +50,9 @@ Socket.IO handles:
 
 ## Deployment Notes
 
-- Configured for Vercel with `vercel.json`
-- Socket.IO routing handled via API routes
+- Configured for Railway with `railway.toml` and `nixpacks.toml`
+- Railway supports WebSockets natively (no special routing needed)
+- Socket.IO works seamlessly on Railway
 - Memory-based storage (consider database for production scale)
 
 ## Language
