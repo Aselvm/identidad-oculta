@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // In a real app, you'd use a database. For now, we'll use memory storage
 // Share rooms with Socket.IO server
-const rooms = global.rooms || new Map()
+const rooms = globalThis.rooms || new Map()
 if (!global.rooms) {
   global.rooms = rooms
 }
