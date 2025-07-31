@@ -3,7 +3,8 @@
     "allow": [
       "Bash(rm:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:identidad-oculta-production.up.railway.app)"
     ],
     "deny": []
   }

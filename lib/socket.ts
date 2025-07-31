@@ -4,10 +4,7 @@ let socket: Socket | null = null
 
 export const initSocket = () => {
   if (!socket) {
-    socket = io(process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000', {
-      path: '/api/socket',
-      addTrailingSlash: false,
-    })
+    socket = io()
   }
   return socket
 }
